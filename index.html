@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2563eb">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CV Indo">
+<meta name="mobile-web-app-capable" content="yes">
+<title>CV Indo Otomatis 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Lora:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#eef2f7;--card:#fff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;
+  --brand:#2563eb;--brand2:#1d4ed8;--r:16px;
+}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg);color:var(--ink);font-size:15px;
+  -webkit-font-smoothing:antialiased;overscroll-behavior-y:none;
+}
+button{font:inherit}
+
+/* ---------- APP BAR ---------- */
+.appbar{
+  position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:10px;
+  padding:12px 14px;padding-top:calc(12px + env(safe-area-inset-top));
+  background:rgba(255,255,255,.86);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.4px}
+.logo span{color:var(--brand)}
+.appbar .sp{flex:1}
+.btn{
+  border:none;border-radius:11px;padding:10px 15px;font-weight:600;font-size:13.5px;
+  background:#e2e8f0;color:#0f172a;cursor:pointer;transition:.15s;white-space:nowrap;
+}
+.btn:active{transform:scale(.96)}
+.btn.primary{background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.32)}
+.btn.ghost{background:transparent;color:var(--muted)}
+.btn.sm{padding:8px 13px;font-size:13px}
+.btn.block{width:100%;padding:15px;font-size:15px;border-radius:14px}
+
+/* ---------- FORM ---------- */
+.content{padding:14px 14px 120px;max-width:720px;margin:0 auto}
+.hero{
+  background:linear-gradient(135deg,#1e40af,#3b82f6 60%,#60a5fa);
+  color:#fff;border-radius:20px;padding:20px;margin-bottom:14px;
+  box-shadow:0 10px 30px rgba(37,99,235,.28);
+}
+.hero h2{margin:0 0 6px;font-size:19px;letter-spacing:-.4px}
+.hero p{margin:0;font-size:13px;opacity:.9;line-height:1.5}
+.hero .pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.hero .pills span{background:rgba(255,255,255,.2);padding:5px 10px;border-radius:20px;font-size:11px;font-weight:600}
+
+.sec{background:var(--card);border-radius:var(--r);margin-bottom:12px;box-shadow:0 1px 3px rgba(15,23,42,.07);overflow:hidden}
+.sec summary{
+  padding:16px;font-weight:700;font-size:14.5px;display:flex;align-items:center;gap:10px;
+  cursor:pointer;list-style:none;user-select:none;
+}
+.sec summary::-webkit-details-marker{display:none}
+.sec summary .ico{
+  width:30px;height:30px;border-radius:9px;background:#eff6ff;color:var(--brand);
+  display:grid;place-items:center;font-size:15px;flex:none;
+}
+.sec summary::after{content:"⌄";margin-left:auto;color:#94a3b8;font-size:18px;transition:.25s}
+.sec[open] summary::after{transform:rotate(180deg)}
+.sec .body{padding:0 16px 16px}
+
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:6px}
+.field input,.field textarea,.field select{
+  width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:11px;
+  font:inherit;font-size:14px;background:#fff;color:var(--ink);outline:none;transition:.15s;
+  -webkit-appearance:none;appearance:none;
+}
+.field select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%2364748b' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.field textarea{resize:vertical;min-height:84px;line-height:1.5}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(37,99,235,.13)}
+.field .hint{font-size:11px;color:#94a3b8;margin-top:5px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* foto */
+.photoup{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.ph-box{
+  width:88px;height:88px;border-radius:16px;border:2px dashed #cbd5e1;background:#f8fafc;
+  display:grid;place-items:center;color:#94a3b8;font-size:26px;overflow:hidden;flex:none;
+}
+.ph-box img{width:100%;height:100%;object-fit:cover}
+.file-label{
+  display:inline-block;background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff;
+  padding:9px 15px;border-radius:11px;font-size:13px;font-weight:600;cursor:pointer;
+  box-shadow:0 4px 12px rgba(37,99,235,.3)
+}
+
+/* kartu item */
+.card{border:1.5px solid var(--line);border-radius:13px;padding:12px;margin-bottom:10px;background:#fbfcfe}
+.card .ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.card .ch b{font-size:12px;color:#475569;letter-spacing:.4px;text-transform:uppercase}
+.del{background:#fee2e2;color:#b91c1c;border:none;border-radius:8px;padding:5px 10px;font-size:11.5px;font-weight:700;cursor:pointer}
+.add{
+  width:100%;border:1.5px dashed #bfdbfe;background:#eff6ff;color:var(--brand2);
+  border-radius:12px;padding:12px;font-weight:700;font-size:13.5px;cursor:pointer;
+}
+.add:active{transform:scale(.98)}
+
+/* bottom bar */
+.bottombar{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px 14px;
+  padding-bottom:calc(12px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-top:1px solid var(--line);
+}
+.bottombar .btn{max-width:720px;margin:0 auto;display:block}
+
+/* ---------- PREVIEW ---------- */
+#previewView[hidden]{display:none}
+.chips{
+  display:flex;gap:8px;overflow-x:auto;padding:12px 14px;scrollbar-width:none;
+  background:#fff;border-bottom:1px solid var(--line);
+  position:sticky;top:calc(57px + env(safe-area-inset-top));z-index:45;
+}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:none;padding:8px 14px;border-radius:20px;border:1.5px solid var(--line);
+  background:#fff;font-size:12.5px;font-weight:600;color:#475569;cursor:pointer;transition:.15s;
+}
+.chip.on{background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(37,99,235,.3)}
+.preview-scroll{padding:16px 12px 60px;overflow-x:auto}
+#cvWrap{position:relative;margin:0 auto}
+#cvSheet{
+  position:absolute;top:0;left:0;width:794px;min-height:1123px;background:#fff;
+  transform-origin:top left;box-shadow:0 8px 40px rgba(15,23,42,.18);border-radius:2px;overflow:hidden;
+}
+
+/* ---------- TEMPLATE BASE ---------- */
+.tpl{min-height:1123px;background:#fff;position:relative}
+.tpl ul{margin:0;padding-left:16px}
+.tpl li{margin-bottom:2px}
+.tpl p{margin:0}
+.tpl img{display:block}
+
+/* ---------- PRINT ---------- */
+@media print{
+  @page{size:A4;margin:0}
+  html,body{margin:0!important;padding:0!important;background:#fff!important}
+  body *{visibility:hidden!important}
+  #cvSheet,#cvSheet *{visibility:visible!important}
+  .appbar,.chips,.bottombar,.content{display:none!important}
+  #previewView,#previewView *{visibility:visible!important}
+  .preview-scroll{padding:0!important;overflow:visible!important}
+  #cvWrap{position:static!important;width:auto!important;height:auto!important;margin:0!important}
+  #cvSheet{
+    position:absolute!important;top:0!important;left:0!important;
+    transform:none!important;box-shadow:none!important;border-radius:0!important;
+    width:210mm!important;min-height:297mm!important;
+  }
+  .tpl{page-break-inside:auto}
+  .tpl .item,.tpl .entry{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= FORM VIEW ================= -->
+<div id="formView">
+  <header class="appbar">
+    <div class="logo">CV<span>Indo</span> 2026</div>
+    <div class="sp"></div>
+    <button class="btn ghost sm" id="btnDemo">Contoh</button>
+    <button class="btn primary sm" id="btnPreview">Pratinjau →</button>
+  </header>
+
+  <div class="content">
+    <div class="hero">
+      <h2>Bikin CV Indonesia otomatis 🇮🇩</h2>
+      <p>Isi datamu sekali, dapat 8 template siap pakai. Tinggal cetak jadi PDF.</p>
+      <div class="pills"><span>ATS Friendly</span><span>Fresh Graduate</span><span>Profesional</span><span>Kreatif</span></div>
+    </div>
+
+    <!-- DATA DIRI -->
+    <details class="sec" open>
+      <summary><span class="ico">👤</span>Data Diri</summary>
+      <div class="body">
+        <div class="photoup">
+          <div class="ph-box" id="phBox">＋</div>
+          <div>
+            <label class="file-label">Pilih Foto
+              <input type="file" id="photoInput" accept="image/*" hidden>
+            </label>
+            <div style="margin-top:8px"><button class="btn sm ghost" id="photoDel">Hapus foto</button></div>
+          </div>
+        </div>
+
+        <div class="field"><label>Nama Lengkap</label>
+          <input data-k="nama" placeholder="Randy Kurniawan" autocomplete="name"></div>
+
+        <div class="row2">
+          <div class="field"><label>Gelar (opsional)</label>
+            <input data-k="gelar" placeholder="S.Kom."></div>
+          <div class="field"><label>Posisi Dilamar</label>
+            <input data-k="posisi" placeholder="Frontend Developer"></div>
+        </div>
+
+        <div class="field"><label>Tempat, Tanggal Lahir</label>
+          <input data-k="ttl" placeholder="Bandung, 12 Mei 2001"></div>
+
+        <div class="row2">
+          <div class="field"><label>Jenis Kelamin</label>
+            <select data-k="jk"><option value="">— Pilih —</option><option>Laki-laki</option><option>Perempuan</option></select></div>
+          <div class="field"><label>Status Pernikahan</label>
+            <select data-k="status"><option value="">— Pilih —</option><option>Belum Menikah</option><option>Menikah</option></select></div>
+        </div>
+
+        <div class="field"><label>Alamat</label>
+          <input data-k="alamat" placeholder="Jl. Merdeka No. 10, Bandung"></div>
+
+        <div class="row2">
+          <div class="field"><label>No. HP / WhatsApp</label>
+            <input data-k="telp" inputmode="tel" placeholder="0812-3456-7890"></div>
+          <div class="field"><label>Email</label>
+            <input data-k="email" inputmode="email" placeholder="budi@email.com"></div>
+        </div>
+
+        <div class="row2">
+          <div class="field"><label>LinkedIn</label>
+            <input data-k="linkedin" placeholder="linkedin.com/in/budi"></div>
+          <div class="field"><label>Portofolio / Web</label>
+            <input data-k="portofolio" placeholder="budi.dev"></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- RINGKASAN -->
+    <details class="sec">
+      <summary><span class="ico">📝</span>Ringkasan Profil</summary>
+      <div class="body">
+        <div class="field"><label>Ringkasan (2–4 baris)</label>
+          <textarea data-k="ringkasan" placeholder="Lulusan Teknik Informatika dengan pengalaman 2 tahun di pengembangan web. Terbiasa bekerja dengan React, Node.js, dan tim lintas fungsi. Berorientasi pada detail dan hasil."></textarea>
+          <div class="hint">Tulis singkat, fokus ke keahlian & pencapaian.</div></div>
+      </div>
+    </details>
+
+    <!-- PENDIDIKAN -->
+    <details class="sec">
+      <summary><span class="ico">🎓</span>Riwayat Pendidikan</summary>
+      <div class="body"><div id="listPendidikan"></div></div>
+    </details>
+
+    <!-- PENGALAMAN -->
+    <details class="sec">
+      <summary><span class="ico">💼</span>Pengalaman Kerja / Magang</summary>
+      <div class="body"><div id="listPengalaman"></div></div>
+    </details>
+
+    <!-- KEAHLIAN -->
+    <details class="sec">
+      <summary><span class="ico">⚡</span>Keahlian</summary>
+      <div class="body">
+        <div class="field"><label>Keahlian (pisahkan dengan koma)</label>
+          <textarea data-k="keahlian" placeholder="HTML, CSS, JavaScript, React, Node.js, Figma, Git, Komunikasi, Manajemen Waktu"></textarea>
+          <div class="hint">Campur hard skill & soft skill. Maksimal 12 item agar rapi.</div></div>
+      </div>
+    </details>
+
+    <!-- SERTIFIKASI -->
+    <details class="sec">
+      <summary><span class="ico">🏅</span>Sertifikasi & Pelatihan</summary>
+      <div class="body"><div id="listSertifikasi"></div></div>
+    </details>
+
+    <!-- BAHASA -->
+    <details class="sec">
+      <summary><span class="ico">🌐</span>Bahasa</summary>
+      <div class="body"><div id="listBahasa"></div></div>
+    </details>
+
+    <!-- ORGANISASI -->
+    <details class="sec">
+      <summary><span class="ico">🤝</span>Organisasi & Kepanitiaan</summary>
+      <div class="body"><div id="listOrganisasi"></div></div>
+    </details>
+
+    <!-- TAMBAHAN -->
+    <details class="sec">
+      <summary><span class="ico">✨</span>Tambahan</summary>
+      <div class="body">
+        <div class="field"><label>Hobi / Minat</label>
+          <input data-k="hobi" placeholder="Membaca, fotografi, lari pagi"></div>
+        <div class="field"><label>Referensi</label>
+          <input data-k="referensi" placeholder="Tersedia atas permintaan"></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="bottombar">
+    <button class="btn primary block" id="btnPreview2">Lihat Pratinjau CV</button>
+  </div>
+</div>
+
+<!-- ================= PREVIEW VIEW ================= -->
+<div id="previewView" hidden>
+  <header class="appbar">
+    <button class="btn ghost sm" id="btnBack">← Edit</button>
+    <div class="sp"></div>
+    <button class="btn primary sm" id="btnPrint">Cetak / PDF</button>
+  </header>
+  <div class="chips" id="tplChips"></div>
+  <div class="preview-scroll" id="previewScroll">
+    <div id="cvWrap"><div id="cvSheet"></div></div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   STATE
+   ========================================================= */
+const KEY = 'cvindo2026_v1';
+
+const DEFAULT = {
+  foto:null, nama:"", gelar:"", posisi:"", ttl:"", jk:"", status:"",
+  alamat:"", telp:"", email:"", linkedin:"", portofolio:"", ringkasan:"",
+  pendidikan:[{jenjang:"S1",institusi:"",jurusan:"",tahun:"",ipk:""}],
+  pengalaman:[{posisi:"",perusahaan:"",lokasi:"",periode:"",deskripsi:""}],
+  keahlian:"",
+  sertifikasi:[{nama:"",penerbit:"",tahun:""}],
+  bahasa:[{nama:"",level:""}],
+  organisasi:[{nama:"",peran:"",tahun:""}],
+  hobi:"", referensi:"", tpl:"t1"
+};
+
+function loadState(){
+  const base = JSON.parse(JSON.stringify(DEFAULT));
+  try{
+    const s = JSON.parse(localStorage.getItem(KEY)||'null');
+    if(s) for(const k in base) if(s[k]!==undefined) base[k]=s[k];
+  }catch(e){}
+  return base;
+}
+let state = loadState();
+
+let saveT;
+function save(){
+  clearTimeout(saveT);
+  saveT = setTimeout(()=>{
+    try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+  }, 250);
+}
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+const esc = s => String(s??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const splitList  = s => String(s||'').split(/[,\n;]/).map(x=>x.trim()).filter(Boolean);
+const splitLines = s => String(s||'').split(/\n/).map(x=>x.trim()).filter(Boolean);
+
+function prep(d){
+  return {
+    P: d.pendidikan.filter(x=>x.institusi||x.jurusan||x.tahun),
+    E: d.pengalaman.filter(x=>x.posisi||x.perusahaan||x.deskripsi),
+    S: splitList(d.keahlian),
+    C: d.sertifikasi.filter(x=>x.nama),
+    B: d.bahasa.filter(x=>x.nama),
+    O: d.organisasi.filter(x=>x.nama),
+    nama: esc(d.nama||'Nama Lengkap'),
+    namaGelar: esc((d.nama||'Nama Lengkap') + (d.gelar ? ', '+d.gelar : '')),
+    pos: esc(d.posisi||''),
+    foto: d.foto || ''
+  };
+}
+
+function contactArr(d){
+  const a = [];
+  if(d.telp) a.push(esc(d.telp));
+  if(d.email) a.push(esc(d.email));
+  if(d.linkedin) a.push(esc(d.linkedin));
+  if(d.portofolio) a.push(esc(d.portofolio));
+  if(d.alamat) a.push(esc(d.alamat));
+  return a;
+}
+function personalArr(d){
+  const a = [];
+  if(d.ttl) a.push(esc(d.ttl));
+  if(d.jk) a.push(esc(d.jk));
+  if(d.status) a.push(esc(d.status));
+  return a;
+}
+
+/* =========================================================
+   TEMPLATE 1 — ATS MINIMALIS
+   ========================================================= */
+function t1(d){
+  const p = prep(d), ct = contactArr(d);
+  return `<div class="tpl t1">
+  <style>
+  .t1{font-family:'Inter',system-ui,sans-serif;color:#111827;padding:44px 48px;font-size:12.5px;line-height:1.55}
+  .t1 .hd{display:flex;gap:20px;align-items:flex-start;border-bottom:2px solid #111827;padding-bottom:14px}
+  .t1 .hd .info{flex:1;min-width:0}
+  .t1 h1{margin:0;font-size:26px;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;line-height:1.15}
+  .t1 .pos{margin-top:5px;font-size:13px;font-weight:600;color:#374151;letter-spacing:.3px}
+  .t1 .ct{margin-top:8px;font-size:11.5px;color:#4b5563}
+  .t1 .ct span:not(:last-child)::after{content:" • ";color:#9ca3af}
+  .t1 .ph{width:86px;height:86px;object-fit:cover;border-radius:6px;border:2px solid #111827;flex:none}
+  .t1 h2{font-size:11px;letter-spacing:1.7px;text-transform:uppercase;font-weight:800;margin:17px 0 8px;padding-bottom:3px;border-bottom:1px solid #d1d5db}
+  .t1 .item{margin-bottom:9px}
+  .t1 .r{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+  .t1 .r b{font-size:12.5px}
+  .t1 .r .dt{font-size:11px;color:#6b7280;white-space:nowrap}
+  .t1 .org{font-size:11.5px;color:#4b5563;font-style:italic;margin-top:1px}
+  .t1 .sk{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:11.5px}
+  .t1 .sk span::before{content:"▪ ";color:#9ca3af}
+  .t1 ul{padding-left:16px;margin:3px 0 0}
+  </style>
+  <div class="hd">
+    <div class="info">
+      <h1>${p.namaGelar}</h1>
+      ${p.pos?`<div class="pos">${p.pos}</div>`:''}
+      <div class="ct">${ct.map(x=>`<span>${x}</span>`).join('')}</div>
+    </div>
+    ${p.foto?`<img class="ph" src="${p.foto}" alt="">`:''}
+  </div>
+  ${d.ringkasan?`<h2>Ringkasan Profil</h2><p>${esc(d.ringkasan)}</p>`:''}
+  ${p.E.length?`<h2>Pengalaman Kerja</h2>`+p.E.map(x=>`
+    <div class="item">
+      <div class="r"><b>${esc(x.posisi)}</b><span class="dt">${esc(x.periode)}</span></div>
+      <div class="org">${esc(x.perusahaan)}${x.lokasi?' • '+esc(x.lokasi):''}</div>
+      ${splitLines(x.deskripsi).length?`<ul>${splitLines(x.deskripsi).map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:''}
+    </div>`).join(''):''}
+  ${p.P.length?`<h2>Riwayat Pendidikan</h2>`+p.P.map(x=>`
+    <div class="item">
+      <div class="r"><b>${esc(x.jenjang)}${x.jurusan?' – '+esc(x.jurusan):''}</b><span class="dt">${esc(x.tahun)}</span></div>
+      <div class="org">${esc(x.institusi)}${x.ipk?' • IPK '+esc(x.ipk):''}</div>
+    </div>`).join(''):''}
+  ${p.S.length?`<h2>Keahlian</h2><div class="sk">${p.S.map(s=>`<span>${esc(s)}</span>`).join('')}</div>`:''}
+  ${p.C.length?`<h2>Sertifikasi & Pelatihan</h2>`+p.C.map(x=>`
+    <div class="item"><div class="r"><b>${esc(x.nama)}</b><span class="dt">${esc(x.tahun)}</span></div>
+    <div class="org">${esc(x.penerbit)}</div></div>`).join(''):''}
+  ${p.O.length?`<h2>Organisasi</h2>`+p.O.map(x=>`
+    <div class="item"><div class="r"><b>${esc(x.peran)}</b><span class="dt">${esc(x.tahun)}</span></div>
+    <div class="org">${esc(x.nama)}</div></div>`).join(''):''}
+  ${p.B.length?`<h2>Bahasa</h2><div class="sk">${p.B.map(x=>`<span>${esc(x.nama)}${x.level?' ('+esc(x.level)+')':''}</span>`).join('')}</div>`:''}
+  ${d.hobi?`<h2>Hobi & Minat</h2><p>${esc(d.hobi)}</p>`:''}
+  ${d.referensi?`<h2>Referensi</h2><p>${esc(d.referensi)}</p>`:''}
+  </div>`;
+}
+
+/* =========================================================
+   TEMPLATE 2 — MODERN NAVY SIDEBAR
+   ========================================================= */
+function t2(d){
+  const p = prep(d), ct = contactArr(d), ps = personalArr(d);
+  return `<div class="tpl t2">
+  <style>
+  .t2{display:grid;grid-template-columns:255px 1fr;font-family:'Inter',sans-serif;font-size:12px;line-height:1.55;min-height:1123px}
+  .t2 .side{background:#0f2744;color:#e2e8f0;padding:36px 22px}
+  .t2 .side .ph{width:120px;height:120px;border-radius:50%;object-fit:cover;margin:0 auto 20px;border:3px solid #3b6ea8}
+  .t2 .side h3{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:#7fa8d9;margin:22px 0 9px;font-weight:800}
+  .t2 .side .kv{font-size:11px;margin-bottom:7px;color:#cbd5e1;word-break:break-word;line-height:1.45}
+  .t2 .side .kv b{display:block;color:#fff;font-size:9.5px;letter-spacing:.6px;text-transform:uppercase;opacity:.55;font-weight:700;margin-bottom:1px}
+  .t2 .sk{display:flex;flex-wrap:wrap;gap:5px}
+  .t2 .sk span{background:#1d3f68;color:#dbeafe;font-size:10.5px;padding:4px 9px;border-radius:20px}
+  .t2 .main{padding:40px 34px 40px 32px}
+  .t2 h1{font-size:29px;margin:0;font-weight:800;letter-spacing:-.6px;color:#0f2744;line-height:1.15}
+  .t2 .pos{color:#2563eb;font-weight:700;font-size:13px;margin-top:6px;letter-spacing:.4px}
+  .t2 .rule{height:3px;width:54px;background:#2563eb;margin:14px 0 4px;border-radius:2px}
+  .t2 h2{font-size:11px;text-transform:uppercase;letter-spacing:1.8px;color:#0f2744;font-weight:800;margin:22px 0 10px;padding-bottom:5px;border-bottom:1px solid #dbe3ec}
+  .t2 .item{margin-bottom:12px}
+  .t2 .r{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+  .t2 .r b{font-size:12.5px;color:#0f2744}
+  .t2 .r .dt{font-size:10.5px;color:#64748b;white-space:nowrap;font-weight:600}
+  .t2 .org{font-size:11.5px;color:#2563eb;font-weight:600;margin-top:1px}
+  .t2 .org em{color:#94a3b8;font-style:normal;font-weight:400}
+  .t2 ul{padding-left:15px;margin:4px 0 0}
+  .t2 li{color:#334155;margin-bottom:2px}
+  </style>
+  <aside class="side">
+    ${p.foto?`<img class="ph" src="${p.foto}" alt="">`:''}
+    <h3>Kontak</h3>
+    ${d.telp?`<div class="kv"><b>Telepon</b>${esc(d.telp)}</div>`:''}
+    ${d.email?`<div class="kv"><b>Email</b>${esc(d.email)}</div>`:''}
+    ${d.linkedin?`<div class="kv"><b>LinkedIn</b>${esc(d.linkedin)}</div>`:''}
+    ${d.portofolio?`<div class="kv"><b>Portofolio</b>${esc(d.portofolio)}</div>`:''}
+    ${d.alamat?`<div class="kv"><b>Alamat</b>${esc(d.alamat)}</div>`:''}
+    ${ps.length?`<h3>Data Pribadi</h3>`+ps.map(x=>`<div class="kv">${x}</div>`).join(''):''}
+    ${p.S.length?`<h3>Keahlian</h3><div class="sk">${p.S.map(s=>`<span>${esc(s)}</span>`).join('')}</div>`:''}
+    ${p.B.length?`<h3>Bahasa</h3>`+p.B.map(x=>`<div class="kv"><b>${esc(x.nama)}</b>${esc(x.level)}</div>`).join(''):''}
+    ${d.hobi?`<h3>Hobi</h3><div class="kv">${esc(d.hobi)}</div>`:''}
+  </aside>
+  <main class="main">
+    <h1>${p.nama}</h1>
+    ${p.pos?`<div class="pos">${p.pos}</div>`:''}
+    <div class="rule"></div>
+    ${d.ringkasan?`<h2>Profil</h2><p>${esc(d.ringkasan)}</p>`:''}
+    ${p.E.length?`<h2>Pengalaman Kerja</h2>`+p.E.map(x=>`
+      <div class="item">
+        <div class="r"><b>${esc(x.posisi)}</b><span class="dt">${esc(x.periode)}</span></div>
+        <div class="org">${esc(x.perusahaan)}${x.lokasi?' <em>· '+esc(x.lokasi)+'</em>':''}</div>
+        ${splitLines(x.deskripsi).length?`<ul>${splitLines(x.deskripsi).map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:''}
+      </div>`).join(''):''}
+    ${p.P.length?`<h2>Pendidikan</h2>`+p.P.map(x=>`
+      <div class="item">
+        <div class="r"><b>${esc(x.jenjang)}${x.jurusan?' – '+esc(x.jurusan):''}</b><span class="dt">${esc(x.tahun)}</span></div>
+        <div class="org">${esc(x.institusi)}${x.ipk?' <em>· IPK '+esc(x.ipk)+'</em>':''}</div>
+      </div>`).join(''):''}
+    ${p.C.length?`<h2>Sertifikasi</h2>`+p.C.map(x=>`
+      <div class="item"><div class="r"><b>${esc(x.nama)}</b><span class="dt">${esc(x.tahun)}</span></div>
+      <div class="org">${esc(x.penerbit)}</div></div>`).join(''):''}
+    ${p.O.length?`<h2>Organisasi</h2>`+p.O.map(x=>`
+      <div class="item"><div class="r"><b>${esc(x.peran)}</b><span class="dt">${esc(x.tahun)}</span></div>
+      <div class="org">${esc(x.nama)}</div></div>`).join(''):''}
+    ${d.referensi?`<h2>Referensi</h2><p>${esc(d.referensi)}</p>`:''}
+  </main>
+  </div>`;
+}
+
+/* =========================================================
+   TEMPLATE 3 — ELEGAN GOLD (serif)
+   ========================================================= */
+function t3(d){
+  const p = prep(d), ct = contactArr(d);
+  const blk = (title, inner) => `<h2>${title}</h2>${inner}`;
+  return `<div class="tpl t3">
+  <style>
+  .t3{font-family:'Lora',Georgia,serif;padding:42px 54px;font-size:12.5px;line-height:1.65;color:#2b2b2b}
+  .t3 .hd{text-align:center}
+  .t3 .ph{width:106px;height:106px;border-radius:50%;object-fit:cover;border:2px solid #c9a227;padding:4px;background:#fff;margin:0 auto 16px}
+  .t3 h1{font-family:'Playfair Display',Georgia,serif;font-size:29px;letter-spacing:3px;margin:0;text-transform:uppercase;font-weight:700;color:#1c1c1c}
+  .t3 .pos{letter-spacing:4px;text-transform:uppercase;font-size:10.5px;color:#b8945f;margin-top:10px;font-weight:600}
+  .t3 .ct{margin-top:12px;font-size:11px;color:#555}
+  .t3 .ct span:not(:last-child)::after{content:" | ";color:#c9a227}
+  .t3 h2{display:flex;align-items:center;gap:14px;font-family:'Playfair Display',serif;font-size:11.5px;letter-spacing:3px;text-transform:uppercase;margin:26px 0 12px;color:#b8945f;font-weight:600;white-space:nowrap}
+  .t3 h2::before,.t3 h2::after{content:"";flex:1;height:1px;background:#e6dcc2}
+  .t3 .item{margin-bottom:11px}
+  .t3 .r{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+  .t3 .r b{font-size:13px;color:#1c1c1c}
+  .t3 .r .dt{font-size:10.5px;color:#8b8b8b;font-style:italic;white-space:nowrap}
+  .t3 .org{font-size:11.5px;color:#8a7a55;margin-top:1px;font-style:italic}
+  .t3 ul{padding-left:16px;margin:4px 0 0}
+  .t3 li{margin-bottom:2px}
+  .t3 .sk{text-align:center;font-size:11.5px;line-height:1.9}
+  .t3 .sk span:not(:last-child)::after{content:"  ·  ";color:#c9a227}
+  </style>
+  <div class="hd">
+    ${p.foto?`<img class="ph" src="${p.foto}" alt="">`:''}
+    <h1>${p.namaGelar}</h1>
+    ${p.pos?`<div class="pos">${p.pos}</div>`:''}
+    <div class="ct">${ct.map(x=>`<span>${x}</span>`).join('')}</div>
+  </div>
+  ${d.ringkasan?blk('Profil Singkat',`<p style="text-align:center">${esc(d.ringkasan)}</p>`):''}
+  ${p.E.length?blk('Pengalaman Kerja',p.E.map(x=>`
+    <div class="item">
+      <div class="r"><b>${esc(x.posisi)}</b><span class="dt">${esc(x.periode)}</span></div>
+      <div class="org">${esc(x.perusahaan)}${x.lokasi?' — '+esc(x.lokasi):''}</div>
+      ${splitLines(x.deskripsi).length?`<ul>${splitLines(x.deskripsi).map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:''}
+    </div>`).join('')):''}
+  ${p.P.length?blk('Pendidikan',p.P.map(x=>`
+    <div class="item">
+      <div class="r"><b>${esc(x.jenjang)}${x.jurusan?' – '+esc(x.jurusan):''}</b><span class="dt">${esc(x.tahun)}</span></div>
+      <div class="org">${esc(x.institusi)}${x.ipk?' — IPK '+esc(x.ipk):''}</div>
+    </div>`).join('')):''}
+  ${p.S.length?blk('Keahlian',`<div class="sk">${p.S.map(s=>`<span>${esc(s)}</span>`).join('')}</div>`):''}
+  ${p.C.length?blk('Sertifikasi & Pelatihan',p.C.map(x=>`
+    <div class="item"><div class="r"><b>${esc(x.nama)}</b><span class="dt">${esc(x.tahun)}</span></div>
+    <div class="org">${esc(x.penerbit)}</div></div>`).join('')):''}
+  ${p.O.length?blk('Organisasi',p.O.map(x=>`
+    <div class="item"><div class="r"><b>${esc(x.peran)}</b><span class="dt">${esc(x.tahun)}</span></div>
+    <div class="org">${esc(x.nama)}</div></div>`).join('')):''}
+  ${p.B.length?blk('Bahasa',`<div class="sk">${p.B.map(x=>`<span>${esc(x.nama)}${x.level?' ('+esc(x.level)+')':''}</span>`).join('')}</div>`):''}
+  ${d.referensi?blk('Referensi',`<p style="text-align:center">${esc(d.referensi)}</p>`):''}
+  </div>`;
+}
+
+/* =========================================================
+   TEMPLATE 4 — PROFESIONAL BIRU
+   ========================================================= */
+function t4(d){
+  const p = prep(d), ct = contactArr(d), ps = personalArr(d);
+  return `<div class="tpl t4">
+  <style>
+  .t4{font-family:'Inter',sans-serif;font-size:12px;line-height:1.55;color:#1e293b;min-height:1123px;display:flex;flex-direction:column}
+  .t4 .head{background:linear-gradient(120deg,#1d4ed8,#3b82f6);color:#fff;padding:32px 36px;display:flex;gap:22px;align-items:center}
+  .t4 .head .i{flex:1;min-width:0}
+  .t4 .head h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.5px;line-height:1.15}
+  .t4 .head .pos{font-size:12px;margin-top:6px;letter-spacing:1.4px;text-transform:uppercase;opacity:.92;font-weight:600}
+  .t4 .head .ct{font-size:11px;margin-top:10px;opacity:.9;line-height:1.7}
+  .t4 .head .ct span:not(:last-child)::after{content:" • "}
+  .t4 .head img{width:98px;height:98px;border-radius:14px;object-fit:cover;border:3px solid rgba(255,255,255,.55);flex:none}
+  .t4 .body{display:grid;grid-template-columns:1fr 240px;gap:26px;padding:30px 34px;flex:1}
+  .t4 .aside{background:#f1f5f9;border-radius:12px;padding:18px 16px;height:fit-content}
+  .t4 h2{font-size:11px;letter-spacing:1.7px;text-transform:uppercase;color:#1d4ed8;font-weight:800;margin:0 0 10px;padding-bottom:5px;border-bottom:2px solid #dbeafe}
+  .t4 .aside h2{margin-top:0}
+  .t4 .aside h2:not(:first-child){margin-top:20px}
+  .t4 .item{margin-bottom:13px}
+  .t4 .r{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+  .t4 .r b{font-size:12.5px;color:#0f172a}
+  .t4 .r .dt{font-size:10.5px;color:#64748b;font-weight:600;white-space:nowrap}
+  .t4 .org{font-size:11.5px;color:#2563eb;font-weight:600;margin-top:1px}
+  .t4 .org em{color:#94a3b8;font-style:normal;font-weight:400}
+  .t4 ul{padding-left:15px;margin:4px 0 0}
+  .t4 .sk{display:flex;flex-wrap:wrap;gap:6px}
+  .t4 .sk span{background:#e0e7ff;color:#1e40af;font-size:10.5px;padding:4px 9px;border-radius:6px;font-weight:600}
+  .t4 .kv{font-size:11px;color:#475569;margin-bottom:6px}
+  .t4 .kv b{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;color:#94a3b8}
+  </style>
+  <div class="head">
+    <div class="i">
+      <h1>${p.namaGelar}</h1>
+      ${p.pos?`<div class="pos">${p.pos}</div>`:''}
+      <div class="ct">${ct.map(x=>`<span>${x}</span>`).join('')}</div>
+    </div>
+    ${p.foto?`<img src="${p.foto}" alt="">`:''}
+  </div>
+  <div class="body">
+    <main>
+      ${d.ringkasan?`<h2>Ringkasan Profil</h2><p style="margin-bottom:6px">${esc(d.ringkasan)}</p>`:''}
+      ${p.E.length?`<h2 style="margin-top:18px">Pengalaman Kerja</h2>`+p.E.map(x=>`
+        <div class="item">
+          <div class="r"><b>${esc(x.posisi)}</b><span class="dt">${esc(x.periode)}</span></div>
+          <div class="org">${esc(x.perusahaan)}${x.lokasi?' <em>· '+esc(x.lokasi)+'</em>':''}</div>
+          ${splitLines(x.deskripsi).length?`<ul>${splitLines(x.deskripsi).map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:''}
+        </div>`).join(''):''}
+      ${p.P.length?`<h2 style="margin-top:18px">Pendidikan</h2>`+p.P.map(x=>`
+        <div class="item">
+          <div class="r"><b>${esc(x.jenjang)}${x.jurusan?' – '+esc(x.jurusan):''}</b><span class="dt">${esc(x.tahun)}</span></div>
+          <div class="org">${esc(x.institusi)}${x.ipk?' <em>· IPK '+esc(x.ipk)+'</em>':''}</div>
+        </div>`).join(''):''}
+      ${p.O.length?`<h2 style="margin-top:18px">Organisasi</h2>`+p.O.map(x=>`
+        <div class="item"><div class="r"><b>${esc(x.peran)}</b><span class="dt">${esc(x.tahun)}</span></div>
+        <div class="org">${esc(x.nama)}</div></div>`).join(''):''}
+    </main>
+    <aside class="aside">
+      ${p.S.length?`<h2>Keahlian</h2><div class="sk">${p.S.map(s=>`<span>${esc(s)}</span>`).join('')}</div>`:''}
+      ${p.B.length?`<h2>Bahasa</h2>`+p.B.map(x=>`<div class="kv"><b>${esc(x.nama)}</b>${esc(x.level)}</div>`).join(''):''}
+      ${p.C.length?`<h2>Sertifikasi</h2>`+p.C.map(x=>`<div class="kv"><b>${esc(x.nama)}</b>${esc(x.penerbit)}${x.tahun?' · '+esc(x.tahun):''}</div>`).join(''):''}
+      ${ps.length?`<h2>Data Pribadi</h2>`+ps.map(x=>`<div class="kv">${x}</div>`).join(''):''}
+      ${d.hobi?`<h2>Hobi</h2><div class="kv">${esc(d.hobi)}</div>`:''}
+    </aside>
+  </div>
+  </div>`;
+}
+
+/* =========================================================
+   TEMPLATE 5 — FRESH GRADUATE CLEAN
+   ========================================================= */
+function t5(d){
+  const p = prep(d), ct = contactArr(d);
+  return `<div class="tpl t5">
+  <style>
+  .t5{font-family:'Poppins',sans-serif;padding:42px 46px;font-size:12px;line-height:1.6;color:#334155;min-height:1123px}
+  .t5 .hd{display:flex;gap:20px;align-items:center;border-bottom:3px solid #0f766e;padding-bottom:18px}
+  .t5 .hd .i{flex:1;min-width:0}
+  .t5 h1{font-size:25px;margin:0;font-weight:700;color:#0f172a;letter-spacing:-.3px}
+  .t5 .pos{color:#0f766e;font-weight:600;font-size:12.5px;margin-top:4px}
+  .t5 .ct{font-size:11px;color:#64748b;margin-top:9px;line-height:1.8}
+  .t5 .ct span:not(:last-child)::after{content:"  ·  ";color:#cbd5e1}
+  .t5 .ph{width:92px;height:92px;border-radius:50%;object-fit:cover;border:3px solid #ccfbf1;flex:none}
+  .t5 h2{font-size:12px;font-weight:700;color:#0f766e;margin:20px 0 10px;text-transform:uppercase;letter-spacing:1.4px;display:flex;align-items:center;gap:8px}
+  .t5 h2::before{content:"";width:6px;height:6px;border-radius:50%;background:#0f766e;flex:none}
+  .t5 .item{margin-bottom:11px;padding-left:14px;border-left:2px solid #e2e8f0}
+  .t5 .r{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+  .t5 .r b{font-size:12.5px;color:#0f172a}
+  .t5 .r .dt{font-size:10.5px;color:#94a3b8;font-weight:500;white-space:nowrap}
+  .t5 .org{font-size:11.5px;color:#0f766e;font-weight:500}
+  .t5 ul{padding-left:15px;margin:4px 0 0}
+  .t5 .sk{display:flex;flex-wrap:wrap;gap:6px}
+  .t5 .sk span{background:#f0fdfa;border:1px solid #99f6e4;color:#0f766e;font-size:10.5px;padding:4px 10px;border-radius:20px;font-weight:500}
+  </style>
+  <div class="hd">
+    <div class="i">
+      <h1>${p.namaGelar}</h1>
+      ${p.pos?`<div class="pos">${p.pos}</div>`:''}
+      <div class="ct">${ct.map(x=>`<span>${x}</span>`).join('')}</div>
+    </div>
+    ${p.foto?`<img class="ph" src="${p.foto}" alt="">`:''}
+  </div>
+  ${d.ringkasan?`<h2>Tentang Saya</h2><p>${esc(d.ringkasan)}</p>`:''}
+  ${p.P.length?`<h2>Pendidikan</h2>`+p.P.map(x=>`
+    <div class="item">
+      <div class="r"><b>${esc(x.jenjang)}${x.jurusan?' '+esc(x.jurusan):''}</b><span class="dt">${esc(x.tahun)}</span></div>
+      <div class="org">${esc(x.institusi)}${x.ipk?' · IPK '+esc(x.ipk):''}</div>
+    </div>`).join(''):''}
+  ${p.E.length?`<h2>Pengalaman</h2>`+p.E.map(x=>`
+    <div class="item">
+      <div class="r"><b>${esc(x.posisi)}</b><span class="dt">${esc(x.periode)}</span></div>
+      <div class="org">${esc(x.perusahaan)}${x.lokasi?' · '+esc(x.lokasi):''}</div>
+      ${splitLines(x.deskripsi).length?`<ul>${splitLines(x.deskripsi).map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:''}
+    </div>`).join(''):''}
+  ${p.O.length?`<h2>Organisasi & Kepanitiaan</h2>`+p.O.map(x=>`
+    <div class="item"><div class="r"><b>${esc(x.peran)}</b><span class="dt">${esc(x.tahun)}</span></div>
+    <div class="org">${esc(x.nama)}</div></div>`).join(''):''}
+  ${p.S.length?`<h2>Keahlian</h2><div class="sk">${p.S.map(s=>`<span>${esc(s)}</span>`).join('')}</div>`:''}
+  ${p.C.length?`<h2>Sertifikasi</h2>`+p.C.map(x=>`
+    <div class="item"><div class="r"><b>${esc(x.nama)}</b><span class="dt">${esc(x.tahun)}</span></div>
+    <div class="org">${esc(x.penerbit)}</div></div>`).join(''):''}
+  ${p.B.length?`<h2>Bahasa</h2><div class="sk">${p.B.map(x=>`<span>${esc(x.nama)}${x.level?' · '+esc(x.level):''}</span>`).join('')}</div>`:''}
+  ${d.hobi?`<h2>Hobi</h2><p>${esc(d.hobi)}</p>`:''}
+  ${d.referensi?`<h2>Referensi</h2><p>${esc(d.referensi)}</p>`:''}
+  </div>`;
+}
+
+/* =========================================================
+   TEMPLATE 6 — KREATIF GRADIENT
+   ========================================================= */
+function t6(d){
+  const p = prep(d), ct = contactArr(d);
+  return `<div class="tpl t6">
+  <style>
+  .t6{font-family:'Poppins',sans-serif;font-size:12px;line-height:1.55;color:#1e293b;min-height:1123px}
+  .t6 .hero{background:linear-gradient(135deg,#7c3aed,#db2777 55%,#f97316);padding:38px 40px 60px;color:#fff;position:relative;display:flex;gap:22px;align-items:center}
+  .t6 .hero .i{flex:1;min-width:0}
+  .t6 .hero h1{font-size:27px;margin:0;font-weight:700;letter-spacing:-.5px;line-height:1.15}
+  .t6 .hero .pos{font-size:12px;margin-top:6px;opacity:.92;letter-spacing:1.6px;text-transform:uppercase;font-weight:500}
+  .t6 .hero .ct{font-size:11px;margin-top:11px;opacity:.92;line-height:1.8}
+  .t6 .hero .ct span:not(:last-child)::after{content:" • "}
+  .t6 .hero img{width:100px;height:100px;border-radius:50%;object-fit:cover;border:4px solid rgba(255,255,255,.45);flex:none}
+  .t6 .wave{height:26px;background:#fff;border-radius:26px 26px 0 0;margin-top:-26px;position:relative}
+  .t6 .body{display:grid;grid-template-columns:1fr 232px;gap:26px;padding:6px 36px 36px}
+  .t6 h2{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.6px;color:#7c3aed;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
+  .t6 h2::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,#ddd6fe,transparent);border-radius:2px}
+  .t6 h2:first-child{margin-top:6px}
+  .t6 .item{margin-bottom:12px}
+  .t6 .r{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+  .t6 .r b{font-size:12.5px;color:#0f172a}
+  .t6 .r .dt{font-size:10.5px;color:#a78bfa;font-weight:600;white-space:nowrap}
+  .t6 .org{font-size:11.5px;color:#db2777;font-weight:500;margin-top:1px}
+  .t6 ul{padding-left:15px;margin:4px 0 0}
+  .t6 .sk{display:flex;flex-wrap:wrap;gap:6px}
+  .t6 .sk span{background:linear-gradient(135deg,#ede9fe,#fce7f3);color:#6d28d9;font-size:10.5px;padding:5px 11px;border-radius:20px;font-weight:600}
+  .t6 .side{background:#faf5ff;border-radius:14px;padding:16px;height:fit-content}
+  .t6 .side h2{color:#7c3aed}
+  .t6 .kv{font-size:11px;color:#475569;margin-bottom:7px;word-break:break-word}
+  .t6 .kv b{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.7px;color:#c084fc;font-weight:700}
+  </style>
+  <div class="hero">
+    <div class="i">
+      <h1>${p.namaGelar}</h1>
+      ${p.pos?`<div class="pos">${p.pos}</div>`:''}
+      <div class="ct">${ct.map(x=>`<span>${x}</span>`).join('')}</div>
+    </div>
+    ${p.foto?`<img src="${p.foto}" alt="">`:''}
+  </div>
+  <div class="wave"></div>
+  <div class="body">
+    <main>
+      ${d.ringkasan?`<h2>Profil</h2><p>${esc(d.ringkasan)}</p>`:''}
+      ${p.E.length?`<h2>Pengalaman</h2>`+p.E.map(x=>`
+        <div class="item">
+          <div class="r"><b>${esc(x.posisi)}</b><span class="dt">${esc(x.periode)}</span></div>
+          <div class="org">${esc(x.perusahaan)}${x.lokasi?' · '+esc(x.lokasi):''}</div>
+          ${splitLines(x.deskripsi).length?`<ul>${splitLines(x.deskripsi).map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:''}
+        </div>`).join(''):''}
+      ${p.P.length?`<h2>Pendidikan</h2>`+p.P.map(x=>`
+        <div class="item">
+          <div class="r"><b>${esc(x.jenjang)}${x.jurusan?' – '+esc(x.jurusan):''}</b><span class="dt">${esc(x.tahun)}</span></div>
+          <div class="org">${esc(x.institusi)}${x.ipk?' · IPK '+esc(x.ipk):''}</div>
+        </div>`).join(''):''}
+      ${p.O.length?`<h2>Organisasi</h2>`+p.O.map(x=>`
+        <div class="item"><div class="r"><b>${esc(x.peran)}</b><span class="dt">${esc(x.tahun)}</span></div>
+        <div class="org">${esc(x.nama)}</div></div>`).join(''):''}
+    </main>
+    <aside class="side">
+      ${p.S.length?`<h2>Keahlian</h2><div class="sk">${p.S.map(s=>`<span>${esc(s)}</span>`).join('')}</div>`:''}
+      ${p.C.length?`<h2>Sertifikasi</h2>`+p.C.map(x=>`<div class="kv"><b>${esc(x.nama)}</b>${esc(x.penerbit)}${x.tahun?' · '+esc(x.tahun):''}</div>`).join(''):''}
+      ${p.B.length?`<h2>Bahasa</h2>`+p.B.map(x=>`<div class="kv"><b>${esc(x.nama)}</b>${esc(x.level)}</div>`).join(''):''}
+      ${d.hobi?`<h2>Hobi</h2><div class="kv">${esc(d.hobi)}</div>`:''}
+      ${d.referensi?`<h2>Referensi</h2><div class="kv">${esc(d.referensi)}</div>`:''}
+    </aside>
+  </div>
+  </div>`;
+}
+
+/* =========================================================
+   TEMPLATE 7 — EKSEKUTIF SERIF
+   ========================================================= */
+function t7(d){
+  const p = prep(d), ct = contactArr(d), ps = personalArr(d);
+  return `<div class="tpl t7">
+  <style>
+  .t7{font-family:'Lora',Georgia,serif;font-size:12.5px;line-height:1.6;color:#27272a;min-height:1123px}
+  .t7 .hd{background:#1c1c1e;color:#fafafa;padding:34px 42px;display:flex;gap:22px;align-items:center}
+  .t7 .hd .i{flex:1;min-width:0}
+  .t7 .hd h1{font-family:'Playfair Display',serif;font-size:28px;margin:0;letter-spacing:1px;font-weight:700}
+  .t7 .hd .pos{font-size:11px;margin-top:7px;letter-spacing:3px;text-transform:uppercase;color:#c9a227;font-weight:600}
+  .t7 .hd .ct{font-size:11px;margin-top:11px;opacity:.82;line-height:1.75}
+  .t7 .hd .ct span:not(:last-child)::after{content:"  |  ";opacity:.4}
+  .t7 .hd img{width:96px;height:96px;border-radius:8px;object-fit:cover;border:2px solid #c9a227;flex:none}
+  .t7 .body{padding:30px 42px}
+  .t7 h2{font-family:'Playfair Display',serif;font-size:12px;letter-spacing:2.6px;text-transform:uppercase;color:#1c1c1e;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid #c9a227;font-weight:700}
+  .t7 h2:first-child{margin-top:0}
+  .t7 .item{margin-bottom:11px}
+  .t7 .r{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+  .t7 .r b{font-size:13px;color:#111}
+  .t7 .r .dt{font-size:10.5px;color:#8b8b8b;white-space:nowrap;font-style:italic}
+  .t7 .org{font-size:11.5px;color:#8a7a55;font-style:italic;margin-top:1px}
+  .t7 ul{padding-left:16px;margin:4px 0 0}
+  .t7 .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
+  .t7 .sk{font-size:11.5px;line-height:1.9}
+  .t7 .sk span:not(:last-child)::after{content:" · ";color:#c9a227}
+  .t7 .kv{font-size:11.5px;margin-bottom:5px}
+  .t7 .kv b{color:#8a7a55;font-weight:600}
+  </style>
+  <div class="hd">
+    <div class="i">
+      <h1>${p.namaGelar}</h1>
+      ${p.pos?`<div class="pos">${p.pos}</div>`:''}
+      <div class="ct">${ct.map(x=>`<span>${x}</span>`).join('')}</div>
+    </div>
+    ${p.foto?`<img src="${p.foto}" alt="">`:''}
+  </div>
+  <div class="body">
+    ${d.ringkasan?`<h2>Ringkasan Eksekutif</h2><p>${esc(d.ringkasan)}</p>`:''}
+    ${p.E.length?`<h2>Pengalaman Profesional</h2>`+p.E.map(x=>`
+      <div class="item">
+        <div class="r"><b>${esc(x.posisi)}</b><span class="dt">${esc(x.periode)}</span></div>
+        <div class="org">${esc(x.perusahaan)}${x.lokasi?' — '+esc(x.lokasi):''}</div>
+        ${splitLines(x.deskripsi).length?`<ul>${splitLines(x.deskripsi).map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:''}
+      </div>`).join(''):''}
+    ${p.P.length?`<h2>Pendidikan</h2>`+p.P.map(x=>`
+      <div class="item">
+        <div class="r"><b>${esc(x.jenjang)}${x.jurusan?' – '+esc(x.jurusan):''}</b><span class="dt">${esc(x.tahun)}</span></div>
+        <div class="org">${esc(x.institusi)}${x.ipk?' — IPK '+esc(x.ipk):''}</div>
+      </div>`).join(''):''}
+    <div class="cols">
+      <div>
+        ${p.S.length?`<h2>Keahlian</h2><div class="sk">${p.S.map(s=>`<span>${esc(s)}</span>`).join('')}</div>`:''}
+        ${p.B.length?`<h2>Bahasa</h2>`+p.B.map(x=>`<div class="kv"><b>${esc(x.nama)}</b> — ${esc(x.level)}</div>`).join(''):''}
+      </div>
+      <div>
+        ${p.C.length?`<h2>Sertifikasi</h2>`+p.C.map(x=>`<div class="kv"><b>${esc(x.nama)}</b><br>${esc(x.penerbit)}${x.tahun?' · '+esc(x.tahun):''}</div>`).join(''):''}
+        ${ps.length?`<h2>Data Pribadi</h2>`+ps.map(x=>`<div class="kv">${x}</div>`).join(''):''}
+      </div>
+    </div>
+    ${p.O.length?`<h2>Organisasi</h2>`+p.O.map(x=>`
+      <div class="item"><div class="r"><b>${esc(x.peran)}</b><span class="dt">${esc(x.tahun)}</span></div>
+      <div class="org">${esc(x.nama)}</div></div>`).join(''):''}
+    ${d.referensi?`<h2>Referensi</h2><p>${esc(d.referensi)}</p>`:''}
+  </div>
+  </div>`;
+}
+
+/* =========================================================
+   TEMPLATE 8 — HIJAU AKSEN (rapi & netral)
+   ========================================================= */
+function t8(d){
+  const p = prep(d), ct = contactArr(d);
+  return `<div class="tpl t8">
+  <style>
+  .t8{font-family:'Inter',sans-serif;font-size:12px;line-height:1.6;color:#334155;padding:44px 48px 44px 56px;min-height:1123px;position:relative}
+  .t8::before{content:"";position:absolute;left:0;top:0;bottom:0;width:12px;background:linear-gradient(180deg,#059669,#10b981 50%,#34d399)}
+  .t8 .hd{display:flex;gap:20px;align-items:center;margin-bottom:6px}
+  .t8 .hd .i{flex:1;min-width:0}
+  .t8 h1{font-size:26px;margin:0;font-weight:800;color:#064e3b;letter-spacing:-.4px;line-height:1.15}
+  .t8 .pos{font-size:12.5px;color:#059669;font-weight:600;margin-top:4px}
+  .t8 .ct{font-size:11px;color:#64748b;margin-top:8px;line-height:1.8}
+  .t8 .ct span:not(:last-child)::after{content:" • ";color:#a7f3d0}
+  .t8 .ph{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #d1fae5;flex:none}
+  .t8 h2{font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.6px;color:#065f46;margin:22px 0 10px;padding-left:10px;border-left:4px solid #10b981;line-height:1.2}
+  .t8 .item{margin-bottom:12px}
+  .t8 .r{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+  .t8 .r b{font-size:12.5px;color:#0f172a}
+  .t8 .r .dt{font-size:10.5px;color:#94a3b8;font-weight:600;white-space:nowrap}
+  .t8 .org{font-size:11.5px;color:#059669;font-weight:600;margin-top:1px}
+  .t8 .org em{color:#94a3b8;font-style:normal;font-weight:400}
+  .t8 ul{padding-left:16px;margin:4px 0 0}
+  .t8 li{margin-bottom:2px}
+  .t8 .sk{display:flex;flex-wrap:wrap;gap:6px}
+  .t8 .sk span{background:#ecfdf5;border:1px solid #a7f3d0;color:#047857;font-size:10.5px;padding:4px 10px;border-radius:6px;font-weight:600}
+  </style>
+  <div class="hd">
+    <div class="i">
+      <h1>${p.namaGelar}</h1>
+      ${p.pos?`<div class="pos">${p.pos}</div>`:''}
+      <div class="ct">${ct.map(x=>`<span>${x}</span>`).join('')}</div>
+    </div>
+    ${p.foto?`<img class="ph" src="${p.foto}" alt="">`:''}
+  </div>
+  ${d.ringkasan?`<h2>Profil Singkat</h2><p>${esc(d.ringkasan)}</p>`:''}
+  ${p.E.length?`<h2>Pengalaman Kerja</h2>`+p.E.map(x=>`
+    <div class="item">
+      <div class="r"><b>${esc(x.posisi)}</b><span class="dt">${esc(x.periode)}</span></div>
+      <div class="org">${esc(x.perusahaan)}${x.lokasi?' <em>· '+esc(x.lokasi)+'</em>':''}</div>
+      ${splitLines(x.deskripsi).length?`<ul>${splitLines(x.deskripsi).map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:''}
+    </div>`).join(''):''}
+  ${p.P.length?`<h2>Riwayat Pendidikan</h2>`+p.P.map(x=>`
+    <div class="item">
+      <div class="r"><b>${esc(x.jenjang)}${x.jurusan?' – '+esc(x.jurusan):''}</b><span class="dt">${esc(x.tahun)}</span></div>
+      <div class="org">${esc(x.institusi)}${x.ipk?' <em>· IPK '+esc(x.ipk)+'</em>':''}</div>
+    </div>`).join(''):''}
+  ${p.S.length?`<h2>Keahlian</h2><div class="sk">${p.S.map(s=>`<span>${esc(s)}</span>`).join('')}</div>`:''}
+  ${p.C.length?`<h2>Sertifikasi & Pelatihan</h2>`+p.C.map(x=>`
+    <div class="item"><div class="r"><b>${esc(x.nama)}</b><span class="dt">${esc(x.tahun)}</span></div>
+    <div class="org">${esc(x.penerbit)}</div></div>`).join(''):''}
+  ${p.O.length?`<h2>Organisasi</h2>`+p.O.map(x=>`
+    <div class="item"><div class="r"><b>${esc(x.peran)}</b><span class="dt">${esc(x.tahun)}</span></div>
+    <div class="org">${esc(x.nama)}</div></div>`).join(''):''}
+  ${p.B.length?`<h2>Bahasa</h2><div class="sk">${p.B.map(x=>`<span>${esc(x.nama)}${x.level?' · '+esc(x.level):''}</span>`).join('')}</div>`:''}
+  ${d.hobi?`<h2>Hobi & Minat</h2><p>${esc(d.hobi)}</p>`:''}
+  ${d.referensi?`<h2>Referensi</h2><p>${esc(d.referensi)}</p>`:''}
+  </div>`;
+}
+
+/* =========================================================
+   TEMPLATE REGISTRY
+   ========================================================= */
+const TEMPLATES = [
+  {id:'t1', name:'ATS Minimalis',   render:t1},
+  {id:'t2', name:'Navy Sidebar',    render:t2},
+  {id:'t3', name:'Elegan Gold',     render:t3},
+  {id:'t4', name:'Profesional Biru',render:t4},
+  {id:'t5', name:'Fresh Graduate',  render:t5},
+  {id:'t6', name:'Kreatif Gradien', render:t6},
+  {id:'t7', name:'Eksekutif Serif', render:t7},
+  {id:'t8', name:'Hijau Rapi',      render:t8}
+];
+const TPL = Object.fromEntries(TEMPLATES.map(t=>[t.id,t]));
+
+/* =========================================================
+   FORM — LISTS
+   ========================================================= */
+const LISTS = {
+  pendidikan:{
+    label:'Pendidikan',
+    add:'+ Tambah Pendidikan',
+    blank:()=>({jenjang:'S1',institusi:'',jurusan:'',tahun:'',ipk:''}),
+    fields:[
+      {k:'jenjang',l:'Jenjang',t:'select',o:['SD','SMP','SMA/SMK','D3','D4','S1','S2','S3']},
+      {k:'institusi',l:'Institusi / Sekolah',p:'Universitas Indonesia'},
+      {k:'jurusan',l:'Jurusan / Program Studi',p:'Teknik Informatika'},
+      {k:'tahun',l:'Tahun',p:'2019 – 2023'},
+      {k:'ipk',l:'IPK / Nilai (opsional)',p:'3.65 / 4.00'}
+    ]
+  },
+  pengalaman:{
+    label:'Pengalaman',
+    add:'+ Tambah Pengalaman',
+    blank:()=>({posisi:'',perusahaan:'',lokasi:'',periode:'',deskripsi:''}),
+    fields:[
+      {k:'posisi',l:'Posisi',p:'Frontend Developer'},
+      {k:'perusahaan',l:'Perusahaan',p:'PT Teknologi Maju'},
+      {k:'lokasi',l:'Lokasi',p:'Jakarta'},
+      {k:'periode',l:'Periode',p:'Jan 2023 – Sekarang'},
+      {k:'deskripsi',l:'Deskripsi Pekerjaan',t:'textarea',p:'Satu baris = satu poin. Contoh:\nMengembangkan 5 modul dashboard dengan React\nMeningkatkan performa halaman 40%'}
+    ]
+  },
+  sertifikasi:{
+    label:'Sertifikasi',
+    add:'+ Tambah Sertifikasi',
+    blank:()=>({nama:'',penerbit:'',tahun:''}),
+    fields:[
+      {k:'nama',l:'Nama Sertifikasi',p:'Junior Web Developer'},
+      {k:'penerbit',l:'Penerbit / Lembaga',p:'BNSP'},
+      {k:'tahun',l:'Tahun',p:'2024'}
+    ]
+  },
+  bahasa:{
+    label:'Bahasa',
+    add:'+ Tambah Bahasa',
+    blank:()=>({nama:'',level:''}),
+    fields:[
+      {k:'nama',l:'Bahasa',p:'Inggris'},
+      {k:'level',l:'Tingkat',t:'select',o:['Dasar','Menengah','Mahir','Native']}
+    ]
+  },
+  organisasi:{
+    label:'Organisasi',
+    add:'+ Tambah Organisasi',
+    blank:()=>({nama:'',peran:'',tahun:''}),
+    fields:[
+      {k:'nama',l:'Nama Organisasi',p:'BEM Universitas'},
+      {k:'peran',l:'Peran / Jabatan',p:'Ketua Divisi Media'},
+      {k:'tahun',l:'Tahun',p:'2022 – 2023'}
+    ]
+  }
+};
+
+function renderList(key){
+  const cfg = LISTS[key];
+  const el = document.getElementById('list'+key[0].toUpperCase()+key.slice(1));
+  const items = state[key] || [];
+  el.innerHTML = items.map((it,i)=>`
+    <div class="card">
+      <div class="ch"><b>${cfg.label} ${i+1}</b>
+        <button class="del" data-del="${key}" data-i="${i}">Hapus</button></div>
+      ${cfg.fields.map(f=>{
+        const v = esc(it[f.k]||'');
+        const ds = `data-list="${key}" data-i="${i}" data-k="${f.k}"`;
+        if(f.t==='select'){
+          return `<div class="field"><label>${f.l}</label><select ${ds}>
+            ${f.o.map(o=>`<option value="${o}"${it[f.k]===o?' selected':''}>${o}</option>`).join('')}
+          </select></div>`;
+        }
+        if(f.t==='textarea'){
+          return `<div class="field"><label>${f.l}</label><textarea ${ds} placeholder="${esc(f.p||'')}">${v}</textarea></div>`;
+        }
+        return `<div class="field"><label>${f.l}</label><input ${ds} value="${v}" placeholder="${esc(f.p||'')}"></div>`;
+      }).join('')}
+    </div>`).join('') +
+    `<button class="add" data-add="${key}">${cfg.add}</button>`;
+}
+
+function renderAllLists(){
+  Object.keys(LISTS).forEach(renderList);
+}
+
+/* =========================================================
+   FORM — BINDING
+   ========================================================= */
+function bindSimpleFields(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.dataset.list) return;
+    const k = el.dataset.k;
+    el.value = state[k] ?? '';
+    if(el.tagName==='SELECT' && !el.value) el.value = '';
+  });
+}
+
+document.addEventListener('input', e=>{
+  const t = e.target;
+  if(t.dataset.list){
+    state[t.dataset.list][+t.dataset.i][t.dataset.k] = t.value;
+    save();
+  } else if(t.dataset && t.dataset.k){
+    state[t.dataset.k] = t.value;
+    save();
+  }
+});
+
+document.addEventListener('click', e=>{
+  const addBtn = e.target.closest('[data-add]');
+  if(addBtn){
+    const key = addBtn.dataset.add;
+    state[key].push(LISTS[key].blank());
+    renderList(key);
+    save();
+    return;
+  }
+  const delBtn = e.target.closest('[data-del]');
+  if(delBtn){
+    const key = delBtn.dataset.del;
+    const i = +delBtn.dataset.i;
+    if(state[key].length>1){ state[key].splice(i,1); }
+    else { state[key][0] = LISTS[key].blank(); }
+    renderList(key);
+    save();
+  }
+});
+
+/* =========================================================
+   FOTO
+   ========================================================= */
+function renderPhoto(){
+  const box = document.getElementById('phBox');
+  if(state.foto){
+    box.innerHTML = `<img src="${state.foto}" alt="Foto">`;
+  } else {
+    box.textContent = '＋';
+  }
+}
+
+document.getElementById('photoInput').addEventListener('change', e=>{
+  const file = e.target.files && e.target.files[0];
+  if(!file) return;
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+  img.onload = ()=>{
+    const MAX = 420;
+    let w = img.width, h = img.height;
+    const s = Math.min(1, MAX/Math.max(w,h));
+    w = Math.round(w*s); h = Math.round(h*s);
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    c.getContext('2d').drawImage(img, 0, 0, w, h);
+    state.foto = c.toDataURL('image/jpeg', 0.85);
+    URL.revokeObjectURL(url);
+    renderPhoto(); save();
+  };
+  img.onerror = ()=> URL.revokeObjectURL(url);
+  img.src = url;
+  e.target.value = '';
+});
+
+document.getElementById('photoDel').addEventListener('click', ()=>{
+  state.foto = null; renderPhoto(); save();
+});
+
+/* =========================================================
+   PREVIEW
+   ========================================================= */
+const formView = document.getElementById('formView');
+const previewView = document.getElementById('previewView');
+const cvSheet = document.getElementById('cvSheet');
+const cvWrap = document.getElementById('cvWrap');
+const chipsEl = document.getElementById('tplChips');
+
+function renderChips(){
+  chipsEl.innerHTML = TEMPLATES.map(t=>
+    `<button class="chip${state.tpl===t.id?' on':''}" data-tpl="${t.id}">${t.name}</button>`
+  ).join('');
+}
+chipsEl.addEventListener('click', e=>{
+  const c = e.target.closest('[data-tpl]');
+  if(!c) return;
+  state.tpl = c.dataset.tpl;
+  renderChips();
+  renderPreview();
+  save();
+});
+
+function renderPreview(){
+  const t = TPL[state.tpl] || TEMPLATES[0];
+  cvSheet.innerHTML = t.render(state);
+  requestAnimationFrame(fitPreview);
+}
+
+function fitPreview(){
+  const scroll = document.getElementById('previewScroll');
+  const avail = scroll.clientWidth - 24;
+  const scale = Math.min(1, avail/794);
+  cvSheet.style.transform = `scale(${scale})`;
+  cvWrap.style.width = (794*scale)+'px';
+  cvWrap.style.height = (cvSheet.offsetHeight*scale)+'px';
+}
+
+window.addEventListener('resize', ()=>{ if(!previewView.hidden) fitPreview(); });
+
+function openPreview(){
+  formView.hidden = true;
+  previewView.hidden = false;
+  renderChips();
+  renderPreview();
+  window.scrollTo(0,0);
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(()=>{ fitPreview(); });
+  }
+  setTimeout(fitPreview, 350);
+}
+
+function closePreview(){
+  previewView.hidden = true;
+  formView.hidden = false;
+  window.scrollTo(0,0);
+}
+
+document.getElementById('btnPreview').addEventListener('click', openPreview);
+document.getElementById('btnPreview2').addEventListener('click', openPreview);
+document.getElementById('btnBack').addEventListener('click', closePreview);
+document.getElementById('btnPrint').addEventListener('click', async ()=>{
+  const btn = document.getElementById('btnPrint');
+  if(!window.jspdf || !window.html2canvas){
+    alert('Pustaka PDF belum siap. Tunggu sebentar lalu coba lagi.');
+    return;
+  }
+  const originalText = btn.textContent;
+  btn.textContent = 'Menyiapkan…';
+  btn.disabled = true;
+
+  const oldCvTransform = cvSheet.style.transform;
+  const oldCvOverflow  = cvSheet.style.overflow;
+  const oldWrapWidth   = cvWrap.style.width;
+  const oldWrapHeight  = cvWrap.style.height;
+
+  try {
+    cvSheet.style.transform = 'none';
+    cvSheet.style.overflow  = 'visible';
+    cvWrap.style.width      = '794px';
+    cvWrap.style.height     = 'auto';
+
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+    const canvas = await html2canvas(cvSheet, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      windowWidth: 794
+    });
+
+    const { jsPDF } = window.jspdf;
+    const pdf     = new jsPDF({ unit:'mm', format:'a4', orientation:'portrait' });
+    const imgData = canvas.toDataURL('image/jpeg', 0.92);
+    const pageW = 210;
+    const pageH = 297;
+    const imgW  = pageW;
+    const imgH  = (canvas.height * imgW) / canvas.width;
+    let heightLeft = imgH;
+    let position   = 0;
+
+    pdf.addImage(imgData, 'JPEG', 0, position, imgW, imgH);
+    heightLeft -= pageH;
+
+    while (heightLeft > 0) {
+      position = heightLeft - imgH;
+      pdf.addPage();
+      pdf.addImage(imgData, 'JPEG', 0, position, imgW, imgH);
+      heightLeft -= pageH;
+    }
+
+    const safeName = (state.nama || 'CV')
+      .replace(/[^a-zA-Z0-9]+/g, '-')
+      .replace(/^-|-$/g, '') || 'CV';
+    pdf.save(`CV-${safeName}.pdf`);
+  } catch (err) {
+    console.error(err);
+    alert('Gagal membuat PDF: ' + (err && err.message ? err.message : 'unknown error'));
+  } finally {
+    cvSheet.style.transform = oldCvTransform;
+    cvSheet.style.overflow  = oldCvOverflow;
+    cvWrap.style.width      = oldWrapWidth;
+    cvWrap.style.height     = oldWrapHeight;
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
+});
+
+/* =========================================================
+   DEMO DATA
+   ========================================================= */
+document.getElementById('btnDemo').addEventListener('click', ()=>{
+  if(!confirm('Isi formulir dengan data contoh? Data saat ini akan diganti.')) return;
+  Object.assign(state, {
+    nama:"Randy Kurniawan", gelar:"S.Tm.", posisi:"Frontend Developer",
+    ttl:"Depok, 25 Mei 1992", jk:"Laki-laki", status:"Belum Menikah",
+    alamat:"JL. Biola Raya No. 245 RT 008 RW 007 Sukmajaya Depok",
+    telp:"0895-33133-9813", email:"randiirma@gmail.com",
+    linkedin:"linkedin.com/in/randykurniawan", portofolio:"randykurniawan.dev",
+    ringkasan:"Lulusan Teknik Informatika dengan pengalaman 2 tahun sebagai Frontend Developer. Terbiasa membangun antarmuka responsif menggunakan React dan TypeScript, serta berkolaborasi dalam tim agile lintas fungsi. Berorientasi pada detail, performa, dan pengalaman pengguna.",
+    pendidikan:[
+      {jenjang:"S1",institusi:"Universitas Pendidikan Indonesia",jurusan:"Teknik Informatika",tahun:"2019 – 2023",ipk:"3.72 / 4.00"},
+      {jenjang:"SMA/SMK",institusi:"SMAN 3 Bandung",jurusan:"IPA",tahun:"2016 – 2019",ipk:"88.5"}
+    ],
+    pengalaman:[
+      {posisi:"Frontend Developer",perusahaan:"PT Teknologi Maju",lokasi:"Jakarta",periode:"Jan 2023 – Sekarang",
+       deskripsi:"Mengembangkan 12+ modul dashboard menggunakan React dan TypeScript\nMeningkatkan skor Lighthouse performa dari 68 menjadi 94\nMembangun design system internal yang dipakai 4 tim produk\nMelakukan code review dan mentoring 2 junior developer"},
+      {posisi:"Web Developer Intern",perusahaan:"Startup Kita",lokasi:"Bandung",periode:"Jun 2022 – Des 2022",
+       deskripsi:"Membuat landing page responsif dengan HTML, CSS, dan JavaScript\nMengoptimalkan waktu muat halaman sebesar 35%"}
+    ],
+    keahlian:"HTML, CSS, JavaScript, TypeScript, React, Next.js, Tailwind CSS, Git, Figma, REST API, Komunikasi, Problem Solving",
+    sertifikasi:[
+      {nama:"Junior Web Developer",penerbit:"BNSP",tahun:"2024"},
+      {nama:"Front-End Web Development",penerbit:"Dicoding Indonesia",tahun:"2023"}
+    ],
+    bahasa:[
+      {nama:"Indonesia",level:"Native"},
+      {nama:"Inggris",level:"Mahir"}
+    ],
+    organisasi:[
+      {nama:"Himpunan Mahasiswa Informatika",peran:"Ketua Divisi Media & Informasi",tahun:"2021 – 2022"}
+    ],
+    hobi:"Fotografi, membaca buku teknologi, lari pagi",
+    referensi:"Tersedia atas permintaan"
+  });
+  bindSimpleFields();
+  renderAllLists();
+  renderPhoto();
+  save();
+});
+
+/* =========================================================
+   INIT
+   ========================================================= */
+bindSimpleFields();
+renderAllLists();
+renderPhoto();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(err => console.warn('SW gagal:', err));
+  });
+}
+</script>
+</body>
+</html>

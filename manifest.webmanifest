@@ -1,0 +1,20 @@
+{
+  "name": "CV Indo Otomatis 2026",
+  "short_name": "CV Indo",
+  "description": "Pembuat CV Indonesia otomatis dengan 8 template siap pakai. Import foto, isi data, cetak PDF.",
+  "lang": "id",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "portrait-primary",
+  "theme_color": "#2563eb",
+  "background_color": "#eef2f7",
+  "categories": ["productivity", "business", "utilities"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
